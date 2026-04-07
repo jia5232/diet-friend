@@ -9,7 +9,7 @@ type Step = 'email' | 'username' | 'password' | 'complete';
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { signUp, checkUsername } = useAuth();
+  const { signUp, checkUsername, checkEmail } = useAuth();
 
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
@@ -35,7 +35,7 @@ export default function SignUpPage() {
   };
 
   // 이메일 단계 처리
-  const handleEmailNext = () => {
+  const handleEmailNext = async () => {
     if (!email) {
       setError('이메일을 입력해주세요.');
       return;
@@ -44,6 +44,16 @@ export default function SignUpPage() {
       setError('올바른 이메일 형식이 아닙니다.');
       return;
     }
+
+    setIsLoading(true);
+    const isAvailable = await checkEmail(email);
+    setIsLoading(false);
+
+    if (!isAvailable) {
+      setError('이미 가입된 이메일입니다.');
+      return;
+    }
+
     setError('');
     setStep('username');
   };
@@ -160,9 +170,10 @@ export default function SignUpPage() {
 
               <button
                 onClick={handleEmailNext}
-                className="w-full py-3 rounded-xl btn-primary font-medium"
+                disabled={isLoading}
+                className="w-full py-3 rounded-xl btn-primary font-medium disabled:opacity-50"
               >
-                다음
+                {isLoading ? '확인 중...' : '다음'}
               </button>
             </div>
           )}

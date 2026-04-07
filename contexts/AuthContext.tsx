@@ -14,6 +14,7 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: string | null }>;
   checkUsername: (username: string) => Promise<boolean>;
+  checkEmail: (email: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -91,11 +92,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return !data; // data가 없으면 사용 가능
   };
 
+  // 이메일 중복 체크
+  const checkEmail = async (email: string): Promise<boolean> => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('email')
+      .eq('email', email)
+      .single();
+
+    return !data; // data가 없으면 사용 가능
+  };
+
   // 회원가입
   const signUp = async (email: string, password: string, username: string) => {
+    // 이메일 중복 체크
+    const isEmailAvailable = await checkEmail(email);
+    if (!isEmailAvailable) {
+      return { error: '이미 가입된 이메일입니다.' };
+    }
+
     // 아이디 중복 체크
-    const isAvailable = await checkUsername(username);
-    if (!isAvailable) {
+    const isUsernameAvailable = await checkUsername(username);
+    if (!isUsernameAvailable) {
       return { error: '이미 사용 중인 아이디입니다.' };
     }
 
@@ -167,6 +185,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signOut,
         resetPassword,
         checkUsername,
+        checkEmail,
       }}
     >
       {children}
