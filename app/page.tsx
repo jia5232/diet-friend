@@ -25,13 +25,7 @@ export default function Home() {
   }
 
   return (
-    <div className="p-4 space-y-5">
-      {/* 헤더 */}
-      <div className="text-center pt-4">
-        <h1 className="text-3xl font-bold text-pink-500">빼빼</h1>
-        <p className="text-gray-400 text-sm mt-1">오늘도 함께 화이팅!</p>
-      </div>
-
+    <div className="p-4 pt-6 space-y-5">
       {/* 오늘의 요약 카드 */}
       <div className="card rounded-2xl p-5">
         <div className="text-center mb-4">
