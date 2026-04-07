@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FFF5F7;
+  --foreground: #4A4A4A;
+  --pink-primary: #FF69B4;
+  --pink-light: #FFB6C1;
+  --lavender: #E6E6FA;
+  --baby-blue: #E0F4FF;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-pink-primary: var(--pink-primary);
+  --color-pink-light: var(--pink-light);
+  --color-lavender: var(--lavender);
+  --color-baby-blue: var(--baby-blue);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: linear-gradient(180deg, #FFF8FA 0%, #FFF0F5 100%);
+  color: var(--foreground);
+  font-family: 'Pretendard', Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* 카드 스타일 - 심플하고 깔끔하게 */
+.card {
+  background: #FFFFFF;
+  border: 1px solid #FFE4EC;
+  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.08);
+}
+
+.card-pink {
+  background: linear-gradient(135deg, #FFF5F8 0%, #FFFFFF 100%);
+  border: 1px solid #FFD6E5;
+  box-shadow: 0 2px 12px rgba(255, 105, 180, 0.1);
+}
+
+/* 글래스 효과 - 가독성 좋게 */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 228, 236, 0.8);
+  box-shadow: 0 4px 16px rgba(255, 105, 180, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #FFE4EC;
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.1);
+}
+
+/* 부드러운 글로우 */
+.glow-soft {
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.35s ease-out forwards;
+}
+
+@keyframes soft-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-soft-bounce {
+  animation: soft-bounce 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 그라데이션 텍스트 - 심플하게 */
+.text-pink-gradient {
+  background: linear-gradient(135deg, #FF69B4 0%, #FF8DC7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 프로그레스 바 쉬머 */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+  background: linear-gradient(135deg, #FF69B4 0%, #FF8DC7 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: #FFF5F8;
+  color: #FF69B4;
+  border: 1px solid #FFD6E5;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #FFECF2;
+}
+
+/* 선택지 버튼 */
+.choice-btn {
+  background: #FFFFFF;
+  border: 1px solid #FFD6E5;
+  color: #FF69B4;
+  transition: all 0.2s ease;
+}
+
+.choice-btn:hover {
+  background: #FFF5F8;
+  border-color: #FF69B4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.15);
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFF0F5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFB6C1;
+  border-radius: 10px;
+}
+
+/* 하단 네비게���션 여백 */
+.pb-nav {
+  padding-bottom: 5rem;
+}
+
+/* 인풋 포커스 */
+input:focus {
+  outline: none;
+  border-color: #FF69B4;
+  box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+}
