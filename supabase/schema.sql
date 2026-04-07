@@ -32,6 +32,7 @@ CREATE TABLE diet_records (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   date DATE NOT NULL,
   meals JSONB NOT NULL DEFAULT '{}',
+  weight DECIMAL(5,2), -- 체중 (kg)
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE(user_id, date)

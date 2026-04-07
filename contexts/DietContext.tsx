@@ -31,8 +31,10 @@ interface DietContextType {
   setSelectedDate: (date: string) => void;
   getDailyDiet: (date: string) => DailyDiet;
   updateMeal: (date: string, mealType: MealType, mealRecord: MealRecord) => void;
+  updateWeight: (date: string, weight: number | undefined) => void;
   getTotalCalories: (date: string) => number;
   getCompletedMealsCount: (date: string) => number;
+  getWeightHistory: (days: number) => { date: string; weight: number }[];
 
   // 운동 관련
   exerciseRecords: ExerciseRecord[];
@@ -94,6 +96,7 @@ export const DietProvider = ({ children }: DietProviderProps) => {
       const records: DailyDiet[] = data.map((record) => ({
         date: record.date,
         meals: record.meals,
+        weight: record.weight,
       }));
       setDietRecords(records);
     }
@@ -192,6 +195,66 @@ export const DietProvider = ({ children }: DietProviderProps) => {
     [getDailyDiet]
   );
 
+  // 체중 업데이트
+  const updateWeight = useCallback(
+    async (date: string, weight: number | undefined) => {
+      if (!user) return;
+
+      const existing = dietRecords.find((d) => d.date === date);
+      const meals = existing?.meals || createEmptyDailyDiet(date).meals;
+
+      // Supabase upsert
+      const { error } = await supabase
+        .from('diet_records')
+        .upsert(
+          {
+            user_id: user.id,
+            date: date,
+            meals: meals,
+            weight: weight,
+          },
+          {
+            onConflict: 'user_id,date',
+          }
+        );
+
+      if (!error) {
+        setDietRecords((prev) => {
+          const existingIndex = prev.findIndex((d) => d.date === date);
+          if (existingIndex >= 0) {
+            const newRecords = [...prev];
+            newRecords[existingIndex] = { ...newRecords[existingIndex], weight };
+            return newRecords;
+          } else {
+            return [...prev, { date, meals, weight }];
+          }
+        });
+      }
+    },
+    [user, dietRecords, supabase]
+  );
+
+  // 체중 기록 가져오기 (최근 N일)
+  const getWeightHistory = useCallback(
+    (days: number): { date: string; weight: number }[] => {
+      const today = new Date();
+      const history: { date: string; weight: number }[] = [];
+
+      for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        const record = dietRecords.find((d) => d.date === dateStr);
+        if (record?.weight) {
+          history.push({ date: dateStr, weight: record.weight });
+        }
+      }
+
+      return history;
+    },
+    [dietRecords]
+  );
+
   // 운동 추가 (로컬)
   const addExercise = useCallback((exercise: Omit<ExerciseRecord, 'id' | 'timestamp'>) => {
     setExerciseRecords((prev) => {
@@ -270,8 +333,10 @@ export const DietProvider = ({ children }: DietProviderProps) => {
     setSelectedDate,
     getDailyDiet,
     updateMeal,
+    updateWeight,
     getTotalCalories,
     getCompletedMealsCount,
+    getWeightHistory,
     exerciseRecords,
     addExercise,
     chatMessages,

@@ -5,6 +5,7 @@ import CalendarView from '@/components/diet/CalendarView';
 import MealCard from '@/components/diet/MealCard';
 import MealGauge from '@/components/diet/MealGauge';
 import DailySummary from '@/components/diet/DailySummary';
+import WeightInput from '@/components/diet/WeightInput';
 import { MealType } from '@/types';
 
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack'];
@@ -52,7 +53,10 @@ export default function DietPage() {
         </span>
       </div>
 
-      {/* 게이지 */}
+      {/* 체중 ���력 */}
+      <WeightInput date={selectedDate} />
+
+      {/* 게이�� */}
       <MealGauge completed={completedMeals} />
 
       {/* 끼니 카드들 */}

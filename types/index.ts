@@ -20,6 +20,7 @@ export interface DailyDiet {
     dinner: MealRecord;
     snack: MealRecord;
   };
+  weight?: number; // 체중 (kg)
 }
 
 // 운동 기록

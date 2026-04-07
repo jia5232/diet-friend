@@ -3,6 +3,7 @@
 import { useDiet } from '@/contexts/DietContext';
 import { getTodayString } from '@/types';
 import Link from 'next/link';
+import WeightChart from '@/components/diet/WeightChart';
 
 export default function Home() {
   const { getTotalCalories, getCompletedMealsCount, settings, isLoaded } = useDiet();
@@ -100,6 +101,9 @@ export default function Home() {
           <p className="text-xs text-purple-400 mt-1">코치와 함께!</p>
         </Link>
       </div>
+
+      {/* 체중 그래프 */}
+      <WeightChart />
 
       {/* 격려 메시지 */}
       <div className="card-pink rounded-2xl p-4 text-center">
