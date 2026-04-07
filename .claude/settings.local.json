@@ -7,7 +7,11 @@
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: 빼빼 다이어트 앱 초기 구현\n\n- Next.js 14 + Tailwind CSS 기반\n- Supabase 인증 \\(회원가입/로그인/비밀번호 재설정\\)\n- 식단 기록 \\(아침/점심/저녁/간식\\)\n- AI 운동 코치 \\(OpenAI GPT-4\\)\n- 친구 기능 \\(검색/요청/수락/식단 공유\\)\n- 목표 칼로리 설정\n- KST 시간대 지원\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: 빌드 에러 수정\n\n- MealStatus 타입 오류 수정 \\(fasted -> fasting\\)\n- useSearchParams Suspense boundary 추가\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

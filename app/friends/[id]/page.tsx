@@ -152,7 +152,7 @@ export default function FriendDietPage({ params }: { params: Promise<{ id: strin
         {(['breakfast', 'lunch', 'dinner', 'snack'] as MealType[]).map((mealType) => {
           const meal = selectedDiet?.meals[mealType];
           const isEmpty = !meal || meal.status === 'empty';
-          const isFasted = meal?.status === 'fasted';
+          const isFasted = meal?.status === 'fasting';
 
           return (
             <div key={mealType} className="card rounded-2xl p-4">

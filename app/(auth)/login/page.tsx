@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { signIn, user } = useAuth();
@@ -54,75 +54,83 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-pink-50 to-white">
-      <div className="w-full max-w-sm">
-        {/* 헤더 */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-pink-500">빼빼</h1>
-          <p className="text-gray-400 text-sm mt-2">로그인하고 기록을 시작해요</p>
+    <div className="w-full max-w-sm">
+      {/* 헤더 */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-pink-500">빼빼</h1>
+        <p className="text-gray-400 text-sm mt-2">로그인하고 기록을 시작해요</p>
+      </div>
+
+      {/* 성공 메시지 */}
+      {success && (
+        <div className="bg-green-50 text-green-600 text-sm p-3 rounded-xl mb-4 text-center">
+          {success}
+        </div>
+      )}
+
+      {/* 폼 */}
+      <form onSubmit={handleLogin} className="card rounded-2xl p-6 space-y-4">
+        <div>
+          <label className="block text-gray-600 text-sm font-medium mb-1.5">
+            이메일
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="example@email.com"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"
+          />
         </div>
 
-        {/* 성공 메시지 */}
-        {success && (
-          <div className="bg-green-50 text-green-600 text-sm p-3 rounded-xl mb-4 text-center">
-            {success}
-          </div>
-        )}
+        <div>
+          <label className="block text-gray-600 text-sm font-medium mb-1.5">
+            비밀번호
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"
+          />
+        </div>
 
-        {/* 폼 */}
-        <form onSubmit={handleLogin} className="card rounded-2xl p-6 space-y-4">
-          <div>
-            <label className="block text-gray-600 text-sm font-medium mb-1.5">
-              이메일
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@email.com"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"
-            />
-          </div>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <div>
-            <label className="block text-gray-600 text-sm font-medium mb-1.5">
-              비밀번호
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="비밀번호"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"
-            />
-          </div>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-3 rounded-xl btn-primary font-medium disabled:opacity-50"
+        >
+          {isLoading ? '로그인 중...' : '로그인'}
+        </button>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+        <Link
+          href="/forgot-password"
+          className="block text-center text-gray-400 text-sm hover:text-pink-500"
+        >
+          비밀번호를 잊으셨나요?
+        </Link>
+      </form>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 rounded-xl btn-primary font-medium disabled:opacity-50"
-          >
-            {isLoading ? '로그인 중...' : '로그인'}
-          </button>
+      {/* 회원가입 링크 */}
+      <p className="text-center text-gray-400 text-sm mt-6">
+        아직 계정이 없으신가요?{' '}
+        <Link href="/signup" className="text-pink-500 font-medium">
+          회원가입
+        </Link>
+      </p>
+    </div>
+  );
+}
 
-          <Link
-            href="/forgot-password"
-            className="block text-center text-gray-400 text-sm hover:text-pink-500"
-          >
-            비밀번호를 잊으셨나요?
-          </Link>
-        </form>
-
-        {/* 회원가입 링크 */}
-        <p className="text-center text-gray-400 text-sm mt-6">
-          아직 계정이 없으신가요?{' '}
-          <Link href="/signup" className="text-pink-500 font-medium">
-            회원가입
-          </Link>
-        </p>
-      </div>
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-pink-50 to-white">
+      <Suspense fallback={<div className="text-pink-400">로딩 중...</div>}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }
