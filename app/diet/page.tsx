@@ -53,10 +53,10 @@ export default function DietPage() {
         </span>
       </div>
 
-      {/* 체중 ���력 */}
+      {/* 체중 입력 */}
       <WeightInput date={selectedDate} />
 
-      {/* 게이�� */}
+      {/* 게이지 */}
       <MealGauge completed={completedMeals} />
 
       {/* 끼니 카드들 */}

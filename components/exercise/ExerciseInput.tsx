@@ -24,7 +24,7 @@ export default function ExerciseInput({ onSubmit, disabled }: ExerciseInputProps
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="직접 입력�� 수도 있어요"
+        placeholder="직접 입력할 수도 있어요"
         disabled={disabled}
         className="flex-1 px-4 py-2.5 rounded-full border border-gray-200 text-sm disabled:opacity-50"
       />
